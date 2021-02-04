@@ -5,6 +5,8 @@ import data from "../data.js";
 import User from "../models/userModel.js";
 import { generateToken, isAdmin, isAuth, timedifference } from "../utils.js";
 import nodemailer from "nodemailer";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const userRouter = express.Router();
 
