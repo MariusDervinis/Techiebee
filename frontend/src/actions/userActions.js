@@ -24,6 +24,13 @@ import {
   USER_TOPSELLERS_LIST_REQUEST,
   USER_TOPSELLERS_LIST_SUCCESS,
   USER_TOPSELLERS_LIST_FAIL,
+
+  USER_RECOVER_REQUEST,
+  USER_RECOVER_SUCCESS,
+  USER_RECOVER_FAIL,
+  USER_TOKEN_FAIL,
+  USER_TOKEN_REQUEST,
+  USER_TOKEN_SUCCESS
 } from '../constants/userConstants';
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -52,6 +59,7 @@ export const signin = (email, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { email, password } });
   try {
     const { data } = await Axios.post('/api/users/signin', { email, password });
+    
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
@@ -91,7 +99,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
   }
 };
 export const updateUserProfile = (user) => async (dispatch, getState) => {
-  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
+  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: {user} });
   const {
     userSignin: { userInfo },
   } = getState();
@@ -177,5 +185,54 @@ export const listTopSellers = () => async (dispatch) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: USER_TOPSELLERS_LIST_FAIL, payload: message });
+  }
+};
+
+///////////////////////////////
+export const recover = (email) => async (dispatch) => {
+  dispatch({ type: USER_RECOVER_REQUEST, payload: {email} });
+  try {
+    const { data } = await Axios.post('/api/users/forgot-password', { email });
+    dispatch({ type: USER_RECOVER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_RECOVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const getToken = (token) => async (dispatch) => {
+  dispatch({ type: USER_TOKEN_REQUEST, payload: token });
+  try {
+    const { data } = await Axios.get(`/api/users/forgot-password/${token}`);
+    dispatch({ type: USER_TOKEN_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_TOKEN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const recoverNewPassword = (token, newPassword) => async (dispatch) => {
+  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: { token, newPassword} });
+  try {
+    const { data } = await Axios.put(`/api/users/forgot-password/${token}`, {newPassword});
+    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
   }
 };

@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const generateToken = (user) => {
   return jwt.sign(
@@ -9,7 +12,7 @@ export const generateToken = (user) => {
       isAdmin: user.isAdmin,
       isSeller: user.isSeller,
     },
-    process.env.JWT_SECRET || 'somethingsecret',
+    process.env.JWT_SECRET,
     {
       expiresIn: '30d',
     }
@@ -57,3 +60,18 @@ export const isSellerOrAdmin = (req, res, next) => {
     res.status(401).send({ message: 'Invalid Admin/Seller Token' });
   }
 };
+
+export const timedifference = (time) => {
+
+  let one_second = 1000 ;
+  let present_date = new Date();
+  let expiry_date = new Date(time);
+
+  if (present_date.getMonth() == 11 && present_date.getdate() > 25) 
+  expiry_date.setFullYear(expiry_date.getFullYear() + 1) 
+
+  var Result = Math.round(expiry_date.getTime() - present_date.getTime()) / (one_second); 
+  
+// To remove the decimals from the (Result) resulting days value 
+return Result.toFixed(0); 
+}

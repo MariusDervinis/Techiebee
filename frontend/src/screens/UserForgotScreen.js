@@ -1,0 +1,75 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { recover } from "../actions/userActions";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+
+export default function UserForgotScreen(props) {
+  const [email, setEmail] = useState("");
+
+  const redirect = props.location.search
+    ? props.location.search.split("=")[1]
+    : "/";
+
+  const userRecover = useSelector((state) => state.userRecover);
+  const { success, loading, error } = userRecover;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+
+  const dispatch = useDispatch();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(recover(email));
+  };
+  useEffect(() => {
+    if (userInfo) {
+      props.history.push(redirect);
+    }
+  }, [props.history, redirect, userInfo, success]);
+  return (
+    <div>
+      <form className="form" onSubmit={submitHandler}>
+        <div>
+          <h1>Forgot Password</h1>
+        </div>
+        {loading && <LoadingBox></LoadingBox>}
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
+        {success && (
+          <MessageBox variant="success">{success.message}</MessageBox>
+        )}{" "}
+        <MessageBox>
+          If you have forgotten your username or password, you can request to
+          reset your password. When you fill in your registered email address,
+          you will be sent instructions on how to reset your password.
+        </MessageBox>
+        <div>
+          <label htmlFor="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
+        </div>
+        <div></div>
+        <div>
+          <label />
+          <button className="primary" type="submit">
+            Recover
+          </button>
+        </div>
+        <div>
+          <label />
+          <div>
+            New customer?{" "}
+            <Link to={`/register?redirect=${redirect}`}>
+              Create your account
+            </Link>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

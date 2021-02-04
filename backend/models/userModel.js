@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import beautiflyUnique from "mongoose-beautiful-unique-validation";
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: "username is already taken" },
+    email: { type: String, required: true, unique: "email is already taken" },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false, required: true },
     isSeller: { type: Boolean, default: false, required: true },
@@ -14,10 +15,15 @@ const userSchema = new mongoose.Schema(
       rating: { type: Number, default: 0, required: true },
       numReviews: { type: Number, default: 0, required: true },
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: String,
   },
   {
     timestamps: true,
   }
 );
-const User = mongoose.model('User', userSchema);
+
+userSchema.plugin(beautiflyUnique);
+
+const User = mongoose.model("User", userSchema);
 export default User;

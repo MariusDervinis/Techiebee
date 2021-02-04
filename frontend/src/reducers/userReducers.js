@@ -29,6 +29,13 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_RESET,
   USER_UPDATE_SUCCESS,
+
+  USER_RECOVER_REQUEST,
+  USER_RECOVER_FAIL,
+  USER_RECOVER_SUCCESS,
+  USER_TOKEN_FAIL,
+  USER_TOKEN_REQUEST,
+  USER_TOKEN_SUCCESS,
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -143,6 +150,33 @@ export const userAddressMapReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_ADDRESS_MAP_CONFIRM:
       return { address: action.payload };
+    default:
+      return state;
+  }
+};
+
+////////////////////////
+export const userRecoverReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_RECOVER_REQUEST:
+      return { loading: true };
+    case USER_RECOVER_SUCCESS:
+      return { loading: false, success: action.payload };
+    case USER_RECOVER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userTokenReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_TOKEN_REQUEST:
+      return { loading: true };
+    case USER_TOKEN_SUCCESS:
+      return { loading: false, success: action.payload };
+    case USER_TOKEN_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

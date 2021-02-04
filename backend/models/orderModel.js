@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import beautiflyUnique from 'mongoose-beautiful-unique-validation'
 
 const orderSchema = new mongoose.Schema(
   {
@@ -46,5 +47,8 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+orderSchema.plugin(beautiflyUnique);
+
 const Order = mongoose.model('Order', orderSchema);
 export default Order;

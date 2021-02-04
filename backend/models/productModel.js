@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import beautiflyUnique from 'mongoose-beautiful-unique-validation'
+
 const reviewSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -27,6 +29,9 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.plugin(beautiflyUnique);
+
 const Product = mongoose.model('Product', productSchema);
 
 export default Product;

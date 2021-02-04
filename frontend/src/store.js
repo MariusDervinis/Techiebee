@@ -29,6 +29,8 @@ import {
   userTopSellerListReducer,
   userUpdateProfileReducer,
   userUpdateReducer,
+  userRecoverReducer,
+  userTokenReducer,
 } from './reducers/userReducers';
 
 const initialState = {
@@ -72,6 +74,8 @@ const reducer = combineReducers({
   productCategoryList: productCategoryListReducer,
   productReviewCreate: productReviewCreateReducer,
   userAddressMap: userAddressMapReducer,
+  userRecover:userRecoverReducer,
+  userToken:userTokenReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

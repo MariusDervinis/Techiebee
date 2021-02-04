@@ -9,6 +9,7 @@ export default function ProfileScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [sellerName, setSellerName] = useState('');
   const [sellerLogo, setSellerLogo] = useState('');
@@ -42,7 +43,7 @@ export default function ProfileScreen() {
   const submitHandler = (e) => {
     e.preventDefault();
     // dispatch update profile
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       alert('Password and Confirm Password Are Not Matched');
     } else {
       dispatch(
@@ -51,6 +52,7 @@ export default function ProfileScreen() {
           name,
           email,
           password,
+          newPassword,
           sellerName,
           sellerLogo,
           sellerDescription,
@@ -100,12 +102,21 @@ export default function ProfileScreen() {
               ></input>
             </div>
             <div>
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Old Password</label>
               <input
                 id="password"
                 type="password"
-                placeholder="Enter password"
+                placeholder="Enter old password"
                 onChange={(e) => setPassword(e.target.value)}
+              ></input>
+            </div>
+            <div>
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                id="newPassword"
+                type="password"
+                placeholder="Enter password"
+                onChange={(e) => setNewPassword(e.target.value)}
               ></input>
             </div>
             <div>

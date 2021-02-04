@@ -10,13 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "availity-reactstrap-validation": "^2.7.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.7",
-    "multer": "^1.4.2"
+    "mongoose-beautiful-unique-validation": "^7.1.1",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.17",
+    "reactstrap": "^8.9.0"
   },
   "devDependencies": {
     "eslint": "^7.9.0",
