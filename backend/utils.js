@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
-dotenv.config();
 
 export const generateToken = (user) => {
   return jwt.sign(
@@ -71,7 +69,7 @@ export const timedifference = (time) => {
   expiry_date.setFullYear(expiry_date.getFullYear() + 1) 
 
   var Result = Math.round(expiry_date.getTime() - present_date.getTime()) / (one_second); 
-  
 // To remove the decimals from the (Result) resulting days value 
 return Result.toFixed(0); 
 }
+

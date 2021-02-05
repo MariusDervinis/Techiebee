@@ -4,8 +4,9 @@ import bcrypt from "bcryptjs";
 import data from "../data.js";
 import User from "../models/userModel.js";
 import { generateToken, isAdmin, isAuth, timedifference } from "../utils.js";
-import nodemailer from "nodemailer";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import transporter from "../mailer.js";
+
 dotenv.config();
 
 const userRouter = express.Router();
@@ -259,27 +260,18 @@ userRouter.post(
         user.resetPasswordExpires = currentDateUnix + 300000;
         try {
           await user.save();
-          const transporter = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE,
-            auth: {
-              user: process.env.EMAIL_ADDRESS,
-              pass: process.env.EMAIL_PASSWORD,
-            },
-          });
           const mailOptions = {
             from: {
               name: "TECHIEBEE Support",
               address: process.env.EMAIL_ADDRESS,
             },
             to: email,
-            subject: "Password recover",
-            text: `  
-Click on this link to reset your password: 
-
-http://${url}/forgot-password/${token} 
-    `,
+            subject: "Techiebee Password Recover",
+            html: `  
+            Click on this link to reset your password: 
+            <a href="http://${url}/forgot-password/${token}">Click here<a/>
+             `,
           };
-
           transporter.sendMail(mailOptions, (err, response) => {
             if (err) {
               res.status(404).send({ message: `${err}` });
@@ -293,7 +285,10 @@ http://${url}/forgot-password/${token}
           for (let i in error.errors) {
             const errorMessage = error.errors[i].message,
               errorValue = error.errors[i].value;
-            res.status(409).send({ message: `"${errorValue}" ${errorMessage}` });
+            console.log(errorMessage, errorValue);
+            res
+              .status(409)
+              .send({ message: `"Email service is temporary unavailable` });
           }
         }
       } else {
