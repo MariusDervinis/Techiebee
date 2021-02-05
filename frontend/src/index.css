@@ -364,3 +364,10 @@ img.large {
 .pagination a.active {
   font-weight: bold;
 }
+
+.logo {
+  position: absolute;
+           width: 100%;
+         display: inline; 
+         text-indent: -9999px;
+}
