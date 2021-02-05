@@ -4,8 +4,38 @@ import bcrypt from "bcryptjs";
 import data from "../data.js";
 import User from "../models/userModel.js";
 import { generateToken, isAdmin, isAuth, timedifference } from "../utils.js";
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
 import dotenv from "dotenv";
-import transporter from "../mailer.js";
+dotenv.config();
+const OAuth2 = google.auth.OAuth2;
+const oauth2Client = new OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URL
+);
+oauth2Client.setCredentials({
+  refresh_token:
+    process.env.GOOGLE_REFRESH_TOKEN
+});
+const accessToken = oauth2Client.getAccessToken();
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE,
+  auth: {
+    type: "Oauth2",
+    user: process.env.EMAIL_ADDRESS,
+    // pass: process.env.EMAIL_PASSWORD,
+    clientId:
+      process.env.GOOGLE_CLIENT_ID,
+    clientSecret:
+      process.env.GOOGLE_CLIENT_SECRET,
+    refreshToken:
+      process.env.GOOGLE_REFRESH_TOKEN,
+    accessToken: accessToken,
+    tls: { rejectUnauthorized: false },
+  },
+});
+
 
 dotenv.config();
 
