@@ -1,1 +1,1 @@
-web: node --modules backend/server.js & backend/mailer.js
+web: node --experimental-modules backend/server.js
