@@ -4,6 +4,7 @@ import Rating from './Rating';
 
 export default function Product(props) {
   const { product } = props;
+  
   return (
     <div key={product._id} className="card">
       <Link to={`/product/${product._id}`}>
@@ -11,7 +12,7 @@ export default function Product(props) {
       </Link>
       <div className="card-body">
         <Link to={`/product/${product._id}`}>
-          <h2>{product.name}</h2>
+          <h2>{product.name.substring(0, 100)}</h2>
         </Link>
         <Rating
           rating={product.rating}
@@ -19,10 +20,13 @@ export default function Product(props) {
         ></Rating>
         <div className="row">
           <div className="price">${product.price}</div>
-          <div>
+          <div className="brand"> {product.brand} </div>
+          {/* <div>
             <Link to={`/seller/${product.seller._id}`}>
               {product.seller.seller.name}
             </Link>
+          </div> */}
+          <div>
           </div>
         </div>
       </div>

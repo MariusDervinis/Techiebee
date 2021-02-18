@@ -4,17 +4,11 @@ import { Redirect, Route } from 'react-router-dom';
 
 export default function PrivateRoute({ component: Component, ...rest }) {
   const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
+  if (!userSignin.userInfo) return <Redirect to="/signin" />;
   return (
     <Route
       {...rest}
-      render={(props) =>
-        userInfo ? (
-          <Component {...props}></Component>
-        ) : (
-          <Redirect to="/signin" />
-        )
-      }
-    ></Route>
+      render={(props) => <Component {...props} />}
+    />
   );
 }

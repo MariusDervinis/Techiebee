@@ -27,7 +27,7 @@ export default function HomeScreen() {
   }, [dispatch]);
   return (
     <div>
-      <h2>Top Sellers</h2>
+      <h2>Welcome to Techiebee</h2>
       {loadingSellers ? (
         <LoadingBox></LoadingBox>
       ) : errorSellers ? (
@@ -39,8 +39,8 @@ export default function HomeScreen() {
             {sellers.map((seller) => (
               <div key={seller._id}>
                 <Link to={`/seller/${seller._id}`}>
-                  <img src={seller.seller.logo} alt={seller.seller.name} />
-                  <p className="legend">{seller.seller.name}</p>
+                  <img src="/images/fly.gif" alt="flyingbee" />
+                  
                 </Link>
               </div>
             ))}
@@ -55,12 +55,15 @@ export default function HomeScreen() {
       ) : (
         <>
           {products.length === 0 && <MessageBox>No Product Found</MessageBox>}
-          <div className="row center">
+          <div className="main-content">
             {products.map((product) => (
               <Product key={product._id} product={product}></Product>
             ))}
           </div>
+          
         </>
+
+        
       )}
     </div>
   );

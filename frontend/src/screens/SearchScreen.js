@@ -20,7 +20,8 @@ export default function SearchScreen(props) {
   } = useParams();
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products, page, pages } = productList;
+  const { loading, error, products, page, pages, count } = productList;
+
 
   const productCategoryList = useSelector((state) => state.productCategoryList);
   const {
@@ -41,7 +42,6 @@ export default function SearchScreen(props) {
       })
     );
   }, [category, dispatch, max, min, name, order, rating, pageNumber]);
-
   const getFilterUrl = (filter) => {
     const filterPage = filter.page || pageNumber;
     const filterCategory = filter.category || category;
@@ -60,7 +60,7 @@ export default function SearchScreen(props) {
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <div>{products.length} Results</div>
+          <div>{count} Results</div>
         )}
         <div>
           Sort by{' '}
