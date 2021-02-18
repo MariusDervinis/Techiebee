@@ -21,18 +21,15 @@ export default function UserValidatorScreen(props) {
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
-    console.log(token);
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       alert("Password and Confirm Password Are Not Matched");
     } else {
-      console.log(newPassword);
       dispatch(recoverNewPassword( token, newPassword ));
     }
   };
   useEffect(() => {
     dispatch(getToken(token));
-    console.log(userInfo)
     if (userInfo) {
       props.history.push(redirect);
     }

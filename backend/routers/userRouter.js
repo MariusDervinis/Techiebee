@@ -277,7 +277,6 @@ userRouter.post(
                     transporter.sendMail(mailOptions, (err, response) => {
                         if (err) {
                             res.status(404).send({ message: `${err}` });
-                            return;
                         } else {
                             user.resetPasswordToken = token;
                             user.resetPasswordExpires = currentDateUnix + expiresAfter;
